@@ -1,0 +1,60 @@
+
+
+
+<!--
+`body` tag options:
+
+  Apply one or more of the following classes to to the body tag
+  to get the desired effect
+
+  * sidebar-collapse
+  * sidebar-mini
+
+-->
+{% include 'partials/header.html' %}
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  <!-- Navbar -->
+  {% include 'partials/navbar.html' %}
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          {{company_profile.name}}
+          
+        </div>
+        <div class="info">
+        
+        </div>
+      </div>
+
+      <!-- SidebarSearch Form -->
+  
+
+      <!-- Sidebar Menu -->
+     {% include 'partials/sidebar.html' %}
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+   {% block content %}
+  <!-- Content Wrapper. Contains page content -->
+
+  <!-- /.content-wrapper -->
+   {% endblock %}
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+
+  <!-- Main Footer -->
+  {% include 'partials/footer.html' %}

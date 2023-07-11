@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="conatiner">
+  <div class="row d-flex">
+   <!--  <div class="col-md-4">
+      <div class="chart_conatiner">
+         <canvas id="myChart"></canvas>
+      </div>
+       </div> -->
+ <div class="col-md-6">
+  <div class="chart_conatiner">
+   <canvas id="barchart"></canvas>
+ </div>
+ </div>
+
+  </div>
+</div>
+
+<!-- <script>
+  const ctx1 = document.getElementById('myChart');
+
+  new Chart(ctx1, {
+    type: 'pie',
+    data: {
+      labels: [{% for data in chart_data %} '{{data.Expenses_category.category_name}}', {% endfor %}],
+      datasets: [{
+        label: 'Weekly Expenses',
+        data: [{% for data in chart_data %} {{data.Expnese_amount}}, {% endfor %}],
+          backgroundColor: [
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 159, 64, 0.2)',
+      'rgba(255, 205, 86, 0.2)',
+      'rgba(75, 192, 192, 0.2)',
+      'rgba(54, 162, 235, 0.2)',
+      'rgba(153, 102, 255, 0.2)',
+      'rgba(201, 203, 207, 0.2)'
+    ], borderColor: [
+      'rgb(255, 99, 132)',
+      'rgb(255, 159, 64)',
+      'rgb(255, 205, 86)', 
+      'rgb(75, 192, 192)',
+      'rgb(54, 162, 235)',
+      'rgb(153, 102, 255)',
+      'rgb(201, 203, 207)'
+    ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script> -->
+<script>
+  const ctx2 = document.getElementById('barchart');
+
+  new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels: [{% for data in chart_data %} '{{data.Expenses_category__category_name}}', {% endfor %}],
+      datasets: [{
+        label: 'Weekly Expenses',
+        data: [{% for data in chart_data %} {{data.sum_amount}}, {% endfor %}],
+          backgroundColor: [
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 159, 64, 0.2)',
+      'rgba(255, 205, 86, 0.2)',
+      'rgba(75, 192, 192, 0.2)',
+      'rgba(54, 162, 235, 0.2)',
+      'rgba(153, 102, 255, 0.2)',
+      'rgba(201, 203, 207, 0.2)'
+    ], borderColor: [
+      'rgb(255, 99, 132)',
+      'rgb(255, 159, 64)',
+      'rgb(255, 205, 86)',
+      'rgb(75, 192, 192)',
+      'rgb(54, 162, 235)',
+      'rgb(153, 102, 255)',
+      'rgb(201, 203, 207)'
+    ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+
+{% endblock %}

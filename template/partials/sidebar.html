@@ -1,0 +1,126 @@
+ <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          <li class="nav-item menu-open">
+            <a href="{% url 'expenses:index' %}" class="nav-link active">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Dashboard
+                
+              </p>
+            </a>
+            
+          </li>
+         
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Categories
+                <i class="fas fa-angle-left right"></i>
+                
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+             s
+              <li class="nav-item">
+                <a href="{% url 'expenses:create_income_category' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Income Category</p>
+                </a>
+              </li>
+              
+             
+              <li class="nav-item">
+                <a href="{% url 'expenses:create_expense_category' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Expense Category</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'expenses:create_saving_category' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Saving Category</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                Expenses
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'expenses:create_expense' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Create Expenses</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'expenses:list_expense' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>List Expenses</p>
+                </a>
+              </li>
+              
+            
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tree"></i>
+              <p>
+                Saving
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'expenses:create_saving' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Create Saving</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'expenses:list_saving' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Saving List</p>
+                </a>
+              </li>
+              
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-edit"></i>
+              <p>
+                Income
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'expenses:create_income' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Create Income</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'expenses:list_income' %}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>List Income</p>
+                </a>
+              </li>
+            
+            </ul>
+          </li>
+       
+          
+          
+        </ul>
+      </nav>
