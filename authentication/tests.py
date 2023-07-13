@@ -1,3 +1,7 @@
 from django.test import TestCase
 
-# Create your tests here.
+# <form method="POST" enctype="multipart/form-data" action="{% url 'authentication:register' %}">
+# {% csrf_token %}
+# {{form}}
+# <input type="submit" name="submit">
+# </form>

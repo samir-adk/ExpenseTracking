@@ -1,3 +1,4 @@
+{% load static %}
 <nav class="main-header navbar navbar-expand navbar-white navbar-light" ng-app="Notificationapp" ng-controller="NotificationController" ng-init="LoadMessage()">
     <!-- Left navbar links -->
 
@@ -34,7 +35,7 @@
       </li>
 
       <!-- Messages Dropdown Menu -->
-    
+      
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -55,11 +56,49 @@
           <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-          <i class="fas fa-expand-arrows-alt"></i>
+       <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="far fa-user"></i>
+         
         </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <a href="#" class="dropdown-item">
+            <!-- Message Start -->
+            <div class="media">
+              <img src="{% static 'image/user.jpg' %}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+              <div class="media-body">
+                <h3 class="dropdown-item-title">
+                  {{request.user}}
+                  
+                </h3>
+                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> Welcome back</p>
+              </div>
+            </div>
+            <!-- Message End -->
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="{% url 'authentication:logout' %}" class="dropdown-item">
+            <!-- Message Start -->
+            <div class="media">
+             
+              <div class="media-body">
+                <h3 class="dropdown-item-title text-center">
+                  Logout
+                 
+                </h3>
+               
+              </div>
+            </div>
+            <!-- Message End -->
+          </a>
+          
+       
+            <!-- Message Start -->
+           
+         
+        </div>
       </li>
+     
     
     </ul> 
   </nav>
