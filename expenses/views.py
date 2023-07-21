@@ -13,14 +13,15 @@ from expenses.models import Company,WeeklyExpense,IncomeCategory,Income,ExpenseC
 # Create your views here.
 
 def index(request):
+    logged_user=request.user
     today_time=datetime.now()
     previous_day=today_time-timedelta(days=7)
     month_date=today_time-timedelta(days=30)
-    monthly_income=Income.objects.values('income_category__income_category').filter(created_date__gte=month_date).filter(created_date__lte=today_time).annotate(sum_amount=Sum('income_amount'))
-    chart_data=Expenses.objects.values('Expenses_category__category_name').filter(Expend_date__gte=previous_day).filter(Expend_date__lte=today_time).annotate(sum_amount=Sum('Expnese_amount'))
-    saving_data=Saving.objects.values('Saving_category__Saving_Category').filter(created_at__gte=previous_day).filter(created_at__lte=today_time).annotate(sum_amount=Sum('saving_amount'))
-    company_profile=Company.objects.filter().first()
-    return render(request,'index.html',{'company_profile':company_profile,'chart_data':chart_data,'saving_data':saving_data,'monthly_income':monthly_income})
+    monthly_income=Income.objects.values('income_category__income_category').filter(created_date__gte=month_date).filter(created_date__lte=today_time).filter(created_user__username=logged_user).annotate(sum_amount=Sum('income_amount'))
+    chart_data=Expenses.objects.values('Expenses_category__category_name').filter(Expend_date__gte=previous_day).filter(created_user__username=logged_user).filter(Expend_date__lte=today_time).annotate(sum_amount=Sum('Expnese_amount'))
+    saving_data=Saving.objects.values('Saving_category__Saving_Category').filter(created_at__gte=previous_day).filter(created_at__lte=today_time).filter(created_user__username=logged_user).annotate(sum_amount=Sum('saving_amount'))
+    # company_profile=Company.objects.filter().first()
+    return render(request,'index.html',{'company_profile':'','chart_data':chart_data,'saving_data':saving_data,'monthly_income':monthly_income})
     
 class create_income_category(CreateView):
     model=IncomeCategory
@@ -28,14 +29,19 @@ class create_income_category(CreateView):
     form_class=IncomeCategoryForm
     success_url=reverse_lazy('expenses:create_income_category')
 
+    def form_valid(self,form):
+        form.instance.created_user=self.request.user
+        return super().form_valid(form)
+
 def list_income_category(request):
+    logged_user=request.user
     if request.POST.get('start_date'):
         if request.method=='POST':
             start_date=request.POST.get('start_date')
             end_date=request.POST.get('end_date')
-            data_list=IncomeCategory.objects.filter(created_at__gte=start_date).filter(created_at__lte=end_date)
+            data_list=IncomeCategory.objects.filter(created_at__gte=start_date).filter(created_at__lte=end_date).filter(created_user__username=logged_user)
             return render(request,'income/list_income_category.html',{'data':data_list})
-    data_list=IncomeCategory.objects.all()
+    data_list=IncomeCategory.objects.all().filter(created_user__username=logged_user) 
     return render(request,'income/list_income_category.html',{'data':data_list})
     
 
@@ -60,14 +66,20 @@ class create_income(CreateView):
     form_class=IncomeForm
     success_url=reverse_lazy('expenses:create_income')
 
+    def form_valid(self,form):
+        form.instance.created_user=self.request.user
+        return super().form_valid(form)
+
+
 def list_income(request):
+    logged_user=request.user
     if request.POST.get('start_date'):
         if request.method=='POST':
             start_date=request.POST.get('start_date')
             end_date=request.POST.get('end_date')
-            data_list=Income.objects.filter(created_date__gte=start_date).filter(created_date__lte=end_date)
+            data_list=Income.objects.filter(created_date__gte=start_date).filter(created_date__lte=end_date).filter(created_user__username=logged_user)
             return render(request,'income/list_income.html',{'data':data_list})
-    data_list=Income.objects.all()
+    data_list=Income.objects.all().filter(created_user__username=logged_user)
     return render(request,'income/list_income.html',{'data':data_list})
     
 
@@ -91,9 +103,13 @@ class create_expense_category(CreateView):
     template_name='expenses/create_expense_category.html'
     form_class=ExpensesCategoryForm
     success_url=reverse_lazy('expenses:create_expense_category')
+    def form_valid(self,form):
+        form.instance.created_user=self.request.user
+        return super().form_valid(form)
 
 def  list_expense_category(request):
-    data_list=ExpenseCategory.objects.all()
+    logged_user=request.user
+    data_list=ExpenseCategory.objects.all().filter(created_user__username=logged_user)
     return render(request,'expenses/list_expenses_category.html',{'data':data_list})
 
 class edit_expense_category(UpdateView):
@@ -115,15 +131,19 @@ class create_expense(CreateView):
     template_name='expenses/create_expense.html'
     form_class=ExpensesForm
     success_url=reverse_lazy('expenses:create_expense')
+    def form_valid(self,form):
+        form.instance.created_user=self.request.user
+        return super().form_valid(form)
 
 def  list_expense(request):
+    logged_user=request.user
     if request.POST.get('start_date'):
         if request.method=='POST':
             start_date=request.POST.get('start_date')
             end_date=request.POST.get('end_date')
-            data_list=Expenses.objects.filter(Expend_date__gte=start_date).filter(Expend_date__lte=end_date)
+            data_list=Expenses.objects.filter(Expend_date__gte=start_date).filter(Expend_date__lte=end_date).filter(created_user__username=logged_user)
             return render(request,'expenses/list_expenses.html',{'data':data_list})
-    data_list=Expenses.objects.all()
+    data_list=Expenses.objects.all().filter(created_user__username=logged_user)
     return render(request,'expenses/list_expenses.html',{'data':data_list})
 
 class edit_expense(UpdateView):
@@ -146,6 +166,9 @@ class create_saving_category(CreateView):
     template_name='saving/create_saving_category.html'
 
     success_url=reverse_lazy('expenses:create_saving_category')
+    def form_valid(self,form):
+        form.instance.created_user=self.request.user
+        return super().form_valid(form)
 
 class edit_saving_category(UpdateView):
     model = SavingCategory
@@ -172,6 +195,10 @@ class create_saving(CreateView):
     template_name='saving/create_saving.html'
     success_url=reverse_lazy('expenses:create_saving')
 
+    def form_valid(self,form):
+        form.instance.created_user=self.request.user
+        return super().form_valid(form)
+
 class edit_saving(UpdateView):
     model = Saving
     form_class=SavingForm
@@ -179,15 +206,16 @@ class edit_saving(UpdateView):
     success_url=reverse_lazy('expenses:create_saving')
 
 def list_saving(request):
-        if request.POST.get('start_date'):    
-            if request.method=='POST':
-                start_date=request.POST.get('start_date')
-                end_date=request.POST.get('end_date')
-                data_list=Saving.objects.filter(created_at__gte=start_date).filter(created_at__lte=end_date)
-                return render(request,'saving/list_saving.html',{'data':data_list})
-        data_list=Saving.objects.all()
-        return render(request,'saving/list_saving.html',{'data':data_list})
- 
+    logged_user=request.user
+    if request.POST.get('start_date'):    
+        if request.method=='POST':
+            start_date=request.POST.get('start_date')
+            end_date=request.POST.get('end_date')
+            data_list=Saving.objects.filter(created_at__gte=start_date).filter(created_at__lte=end_date).filter(created_user__username=logged_user)
+            return render(request,'saving/list_saving.html',{'data':data_list})
+    data_list=Saving.objects.all().filter(created_user__username=logged_user)
+    return render(request,'saving/list_saving.html',{'data':data_list})
+
 
 def delete_saving(request,id):
     find_data=Saving.objects.get(id=id)
@@ -205,7 +233,7 @@ def calculate(request):
     weekly_expenses = Expenses.objects.filter(
         Expend_date__gte=start_date,
         Expend_date__lte=end_date,
-    ).annotate(
+    ).filter(created_user__username=logged_user).annotate(
         week=TruncWeek('Expend_date')
     ).values(
         'week'
@@ -218,10 +246,10 @@ def calculate(request):
         week_date=week,
         defaults={'total_expenses': week_expend}
     )
-    weekly_expenses = WeeklyExpense.objects.all()
+    weekly_expenses = WeeklyExpense.objects.all().filter(created_user__username=logged_user)
     return render(request,'calculate.html',{'weekly_expenses':weekly_expenses})
 
 def chart(request):
-    chart_data=Expenses.objects.values('Expenses_category__category_name').annotate(sum_amount=Sum('Expnese_amount'))
+    chart_data=Expenses.objects.filter(created_user__username=logged_user).values('Expenses_category__category_name').annotate(sum_amount=Sum('Expnese_amount'))
     return render(request,'chart.html',{'chart_data':chart_data})
 

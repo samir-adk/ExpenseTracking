@@ -19,6 +19,7 @@ class IncomeForm(forms.ModelForm):
         fields='__all__'
         widgets = {
         'created_date': DateInput(),
+        'income_category':forms.Select(attrs={'style':'width:36%;'})
         }
 
 
@@ -28,6 +29,7 @@ class ExpensesCategoryForm(forms.ModelForm):
         fields='__all__'
         widgets = {
         'created_at': DateInput(),
+
         }
 
 class ExpensesForm(forms.ModelForm):
@@ -36,6 +38,7 @@ class ExpensesForm(forms.ModelForm):
         fields='__all__'
         widgets = {
         'Expend_date': DateInput(),
+        'Expenses_category':forms.Select(attrs={'style':'width:36%;'})
         }
 
 class SavingCategoryForm(forms.ModelForm):
@@ -51,5 +54,6 @@ class SavingForm(forms.ModelForm):
         model =Saving
         fields='__all__'
         widgets={
-        'created_at':DateInput()
+        'created_at':DateInput(),
+        'Saving_category':forms.Select(attrs={'style':'width:36%;'})
         }

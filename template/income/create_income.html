@@ -1,13 +1,6 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
-<!-- expense category
-<form method="POST">
-	{% csrf_token %}
-{{form}}
-	<button type="submit" btn-cls="btn btn-primary">save</button>
-	
-</form>
- -->
+
 
 
 {% block content %}
@@ -47,7 +40,7 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="POST">
+              <form method="POST" action="{% url 'expenses:create_income' %}" enctype="multipart/form-data">
               	{% csrf_token %}
                 <div class="card-body">
                   <div class="form-group ">
@@ -71,6 +64,8 @@
 
                 <div class="card-footer">
                   <button type="submit" class="btn btn-primary">Submit</button>
+                
+
                 </div>
               </form>
             </div>

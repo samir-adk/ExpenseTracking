@@ -8,6 +8,7 @@ mymodule.controller('NotificationController',function($log,$http,$scope)
 
 $scope.LoadMessage=function()
 {
+	
 	$http({
 		method:'GET',
 		url:'/messages',
@@ -15,6 +16,7 @@ $scope.LoadMessage=function()
 	}).then(function(response)
 	{
 		$scope.data=response.data.lists
+		console.log($scope.data)
 		$scope.count=response.data['messages_count']
 		
 	})
