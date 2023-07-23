@@ -7,6 +7,8 @@ from django.shortcuts import redirect
 from datetime import timedelta,datetime
 from django.db.models.functions import TruncWeek
 from django.db.models import Sum
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.utils import timezone
 
 from expenses.models import Company,WeeklyExpense,IncomeCategory,Income,ExpenseCategory,Expenses,SavingCategory,Saving
@@ -33,17 +35,29 @@ class create_income_category(CreateView):
         form.instance.created_user=self.request.user
         return super().form_valid(form)
 
-def list_income_category(request):
-    logged_user=request.user
-    if request.POST.get('start_date'):
-        if request.method=='POST':
-            start_date=request.POST.get('start_date')
-            end_date=request.POST.get('end_date')
-            data_list=IncomeCategory.objects.filter(created_at__gte=start_date).filter(created_at__lte=end_date).filter(created_user__username=logged_user)
-            return render(request,'income/list_income_category.html',{'data':data_list})
-    data_list=IncomeCategory.objects.all().filter(created_user__username=logged_user) 
-    return render(request,'income/list_income_category.html',{'data':data_list})
-    
+class list_income_category(ListView):
+    model=Income
+    template_name='income/list_income_category.html'
+    context_object_name='data'
+
+    def get_queryset(self):
+        logged_user=self.request.user
+        return IncomeCategory.objects.all().filter(created_user__username=logged_user)
+
+    def get(self,request,*args,**kwargs):
+        return super().get(self,request,*args,**kwargs)
+
+    def post(self,request,*args,**kwargs):
+        logged_user=self.request.user
+        start_date=self.request.POST.get('start_date')
+        end_date=self.request.POST.get('end_date')
+        if start_date:
+            query_set=IncomeCategory.objects.filter(created_at__gte=start_date).filter(created_at__lte=end_date).filter(created_user__username=logged_user)
+        else:
+            query_set=IncomeCategory.objects.all().filter(created_user__username=logged_user)
+        return render(request,self.template_name,{self.context_object_name:query_set})
+
+
 
 def delete_income_category(request,id):
     find_data=IncomeCategory.objects.get(id=id)
@@ -59,7 +73,7 @@ class edit_income_category(UpdateView):
     success_url=reverse_lazy('expenses:list_income_category')
     
 
-
+ 
 class create_income(CreateView):
     model= Income
     template_name='income/create_income.html'
@@ -109,6 +123,12 @@ class create_expense_category(CreateView):
 
 def  list_expense_category(request):
     logged_user=request.user
+    if request.POST.get('start_date'):
+        if request.method=='POST':
+            start_date=request.POST.get('start_date')
+            end_date=request.POST.get('end_date')
+            data_list=ExpenseCategory.objects.filter(created_at__gte=start_date).filter(created_at__lte=end_date).filter(created_user__username=logged_user)
+            return render(request,'expenses/list_expenses_category.html',{'data':data_list})
     data_list=ExpenseCategory.objects.all().filter(created_user__username=logged_user)
     return render(request,'expenses/list_expenses_category.html',{'data':data_list})
 
@@ -180,6 +200,25 @@ class edit_saving_category(UpdateView):
 class list_saving_category(ListView):
     model = SavingCategory
     template_name='saving/list_saving_category.html'
+    context_object_name='data'
+
+    def get_queryset(self):
+        logged_user=self.request.user
+        return SavingCategory.objects.all().filter(created_user__username=logged_user)
+
+    def get(self,request,*args,**kwargs):
+        return super().get(request,*args,*kwargs)
+
+    def post(self,request,*args,**kwargs):
+        logged_user=self.request.user
+        start_date=self.request.POST.get('start_date')
+        end_date=self.request.POST.get('end_date')
+        if start_date:
+            query_set=SavingCategory.objects.filter(created_date__gte=start_date).filter(created_date__lte=end_date).filter(created_user__username=logged_user)
+        else:
+            query_set=SavingCategory.objects.all().filter(created_user=logged_user)
+        return render(request,self.template_name,{self.context_object_name:query_set})
+        
 
 def delete_saving_category(request,id):
     find_data=SavingCategory.objects.get(id=id)
@@ -205,16 +244,28 @@ class edit_saving(UpdateView):
     template_name='saving/create_saving.html'
     success_url=reverse_lazy('expenses:create_saving')
 
-def list_saving(request):
-    logged_user=request.user
-    if request.POST.get('start_date'):    
-        if request.method=='POST':
-            start_date=request.POST.get('start_date')
-            end_date=request.POST.get('end_date')
-            data_list=Saving.objects.filter(created_at__gte=start_date).filter(created_at__lte=end_date).filter(created_user__username=logged_user)
-            return render(request,'saving/list_saving.html',{'data':data_list})
-    data_list=Saving.objects.all().filter(created_user__username=logged_user)
-    return render(request,'saving/list_saving.html',{'data':data_list})
+class list_saving(ListView):
+    model=Saving
+    template_name='saving/list_saving.html'
+    context_object_name='data'
+
+    def get_queryset(self):
+        logged_user=self.request.user
+        return Saving.objects.all().filter(created_user__username=logged_user)
+
+    def get(self,request,*args,**kwargs):
+        return super().get(self,request,*args,**kwargs)
+
+    def post(self,request,*args,**kwargs):
+        logged_user=self.request.user
+        start_date=self.request.POST.get('start_date')
+        end_date=self.request.POST.get('end_date')
+        if start_date and end_date:
+            query_set=Saving.objects.filter(created_at__gte=start_date).filter(created_at__lte=end_date).filter(created_user__username=logged_user)
+        else:
+            query_set=self.get_queryset()
+        return render(request,self.template_name,{self.context_object_name:query_set})
+
 
 
 def delete_saving(request,id):
