@@ -104,8 +104,8 @@ tr:nth-child(even) {
 		<td>{{lists.Saving_category}}</td>
 		<td>{{lists.saving_amount}}</td>
 		<td>{{lists.created_at}}</td>
-		<td><a href="{% url 'expenses:edit_saving' pk=lists.id %}">edit</a></td>
-		<td><a href="{% url 'expenses:delete_saving' lists.id %}">delete</a></td>
+		<td><a href="{% url 'expenses:edit_saving' pk=lists.id %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+		<td><a href="{% url 'expenses:delete_saving' lists.id %}"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
 
 
 	</tr>

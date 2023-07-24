@@ -97,8 +97,10 @@ tr:nth-child(even) {
 		<th>Expense Amount</th>
 		<th>Is important</th>
 		<th>Expend Date</th>
-		<th>delete</th>
-		<th>edit</th>
+    <th>delete</th>
+    <th>edit</th>
+		
+		
 
 
 	</tr>
@@ -112,8 +114,9 @@ tr:nth-child(even) {
 
 
 
-<td><a href="{% url 'expenses:delete_expense' lists.id %}">delete</a></td>
-<td><a href="{% url 'expenses:edit_expense' pk=lists.id %}">edit</a></td>
+<td><a href="{% url 'expenses:delete_expense' lists.id %}"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+<td><a href="{% url 'expenses:edit_expense' pk=lists.id %}">
+<i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
 </tr>
 {% endfor %}
 </table>

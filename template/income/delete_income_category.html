@@ -1,6 +1,45 @@
-<form method="POST">
-	{% csrf_token %}
+{% extends 'base.html' %} 
+{% include 'partials/sidebar.html' %}
+{% block content %}
+<style>
+  .yes_button {
+    margin-left:90%;
+    margin-top: -1%;
 
-{{data.income_category}}
-<input type="submit" name="delete">
-</form>
+  }
+  .no_button
+  {
+  	margin-right: 110%;
+  }
+</style>
+
+<div class="card mt-5">
+  <div class="card-body">
+    <div class="row justify-content-center">
+      <div class="col">
+
+        <form method="POST" class="text-center">
+          {% csrf_token %}
+          <label style="margin-left: 60%;">Are you want to delete "{{data.income_category}}"</label>
+          <!-- Add your login form fields here -->
+          <br>
+          <br>
+          <button class="btn btn-primary custom-button yes_button">yes</button>
+        </form>
+      </div>
+      <div class="col">
+        <form method="POST" action="{% url 'expenses:list_income_category' %} "class="text-center">
+        	{% csrf_token %}
+          <br>
+          <br>
+
+          <button class="btn btn-danger custom-button no_button">No</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}

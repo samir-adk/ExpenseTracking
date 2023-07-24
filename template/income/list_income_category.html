@@ -96,8 +96,9 @@ tr:nth-child(even) {
 		<th>Income Category</th>
 	<th>Is Important</th>
 	<th>created at</th>
+  <th>Delete</th>
 	<th>Edit</th>
-	<th>Delete</th>
+	
 
 
 	</tr>
@@ -113,8 +114,8 @@ tr:nth-child(even) {
 
 <td>{{lists.created_at}}</td>
 
-<td><a href="{% url 'expenses:delete_income_category' lists.id %}">delete</a></td>
-<td><a href="{% url 'expenses:edit_income_category' pk=lists.id %}">edit</a></td>
+<td><a href="{% url 'expenses:delete_income_category' lists.id %}"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+<td><a href="{% url 'expenses:edit_income_category' pk=lists.id %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
 </tr>
 {% endfor %}
 </table>
